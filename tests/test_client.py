@@ -42,7 +42,7 @@ def _client(response: Response) -> tuple[USPSClient, _SessionRecorder]:
     """Build a client whose session answers with ``response``."""
     client = USPSClient("user-one", base_url="https://usps.invalid/api")
     recorder = _SessionRecorder(response)
-    client._session = recorder  # type: ignore[assignment]  # noqa: SLF001 -- the session is the seam
+    vars(client)["_session"] = recorder
     return client, recorder
 
 
