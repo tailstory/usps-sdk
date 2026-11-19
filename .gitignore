@@ -1,16 +1,12 @@
-# IDE
-.idea
-
-# Packing
-darbiadev_usps.egg-info
-build
+# Packaging
 dist
-
-# Virtual environment
-venv
 
 # Cache
 __pycache__
+
+# Coverage
+.coverage
+coverage.xml
 
 # Docs
 docs/build
