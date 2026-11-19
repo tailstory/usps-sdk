@@ -1,15 +1,25 @@
-Welcome to darbiadev-usps's documentation!
-==========================================
+tailstory-usps
+==============
+
+USPS API SDK
+
+Module Index
+------------
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
 
+   autoapi/index
 
+.. toctree::
+   :caption: Other:
+   :hidden:
 
-Indices and tables
-==================
+   changelog
+
+Extras
+------
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
+* :doc:`changelog`

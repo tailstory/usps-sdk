@@ -1,64 +1,78 @@
 [project]
-name = "darbiadev-usps"
-version = "0.3.0"
-description = "A wrapper for USPS' API"
+name = "tailstory-usps"
+version = "0.4.0"
+description = "USPS API SDK"
 authors = [
-    { name = "Bradley Reynolds", email = "bradley.reynolds@darbia.dev" },
+    { name = "Bradley Reynolds", email = "bradley.reynolds@tailstory.dev" },
 ]
-license = { text = "MIT" }
 readme = "README.md"
-requires-python = ">=3.7"
-dependencies = [
-    "requests>=2.26.0",
-    "xmltodict>=0.12,<0.14",
-]
+license = "MIT"
+requires-python = ">=3.14"
+dependencies = ["niquests>=3.19.1", "xmltodict>=1.0.4"]
 
 [project.urls]
-repository = "https://github.com/darbiadev/darbiadev-usps"
-documentation = "https://darbiadev.github.io/darbiadev-usps/"
-
-
-[project.optional-dependencies]
-dev = [
-    "pylint>=2.12.2",
-    "pytest>=6.2.5",
-    "pytest-cov>=3.0.0",
-    "black>=21.12b0",
-]
-tests = [
-    "pytest>=6.2.5",
-]
-docs = [
-    "sphinx>=4.3.2",
-    "sphinxcontrib-autoprogram>=0.1.7",
-    "sphinx-rtd-theme>=1.0.0",
-    "toml>=0.10.2",
-]
+repository = "https://github.com/tailstory/usps-sdk"
+documentation = "https://docs.tailstory.dev/usps-sdk/"
 
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build"]
+build-backend = "uv_build"
 
-[tool.sphinx]
-copyright = "Darbia"
-author = "Bradley Reynolds"
-api_dir = "darbiadev_usps"
+[dependency-groups]
+dev = [
+    "nox>=2026.7.11",
+    "prek>=0.4.11",
+    "ruff>=0.16.0",
+    "mypy>=2.3.0",
+    "types-xmltodict>=1.0.1",
+]
+docs = [
+    "sphinx>=8.1.0",
+    # Theme
+    "furo>=2025.12.19",
+    # Extensions
+    "sphinx-autoapi>=3.8.0",
+    "releases>=2.1.1",
+]
+tests = [
+    "coverage>=7.15.2",
+    "pytest>=9.1.1",
+    # Extensions
+    "pytest-randomly>=4.0.1",
+]
 
-[tool.black]
-target-version = ["py310"]
+[tool.uv]
+exclude-newer = "P7D"
+
+[tool.uv.build-backend]
+module-name = "usps_sdk"
+
+[tool.ruff]
+target-version = "py314"
 line-length = 120
 
-[tool.isort]
-profile = "black"
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "CPY001", # (Missing copyright notice at top of file) - No license
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"docs/*" = [
+    "INP001", # (File `docs/conf.py` is part of an implicit namespace package. Add an `__init__.py`.) - Docs are not modules
+]
+"tests/*" = [
+    "S101", # (Use of `assert` detected) - Yes, that's the point
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["usps_sdk"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.coverage.run]
+source = ["usps_sdk"]
 
 [tool.pytest.ini_options]
-addopts = "tests -r a -v --doctest-modules src"
-
-[tool.pylint.format]
-max-line-length = 120
-
-[tool.pylint.messages_control]
-disable = "W0238, R0903"
-# justifications:
-# W0238 (unused-private-member) - FIXME: is the unused member necessary?
-# R0903 (too-few-public-methods) - FIXME: implement more methods
+addopts = "--strict-markers"
